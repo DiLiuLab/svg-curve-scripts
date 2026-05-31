@@ -1,0 +1,2 @@
+# Required by svg_curve_divV2.py.
+svgpathtools
