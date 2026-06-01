@@ -16,13 +16,13 @@ Small Python utilities for preparing and editing SVG curve geometry. The scripts
 - Tkinter is needed only for GUI mode. It is included with many Python installations, but not all.
 - `svgpathtools` is required by `svg_curve_divV2.py`.
 
-Install the Python dependency in a virtual environment:
+Install the Python dependency:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
+
+This installs `svgpathtools`, which is needed by `svg_curve_divV2.py`. The other scripts use only Python's standard library. If you prefer keeping project dependencies isolated, you may use a virtual environment, but it is not required for normal use.
 
 ## Quick Start
 

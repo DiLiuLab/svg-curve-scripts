@@ -51,13 +51,15 @@ After conversion, it becomes one smooth closed curve:
 
 ## Setup
 
-Create and activate a virtual environment:
+Install the Python dependency:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
+
+This installs `svgpathtools`, which is needed by `svg_curve_divV2.py`. The point-to-curve and crossing-gap scripts use only Python's standard library.
+
+A virtual environment is optional. It can help keep Python packages isolated, but users do not need to create one to run the examples in this manual.
 
 Tkinter is needed only for GUI mode. If GUI mode is unavailable in your Python installation, use the command-line examples below.
 
