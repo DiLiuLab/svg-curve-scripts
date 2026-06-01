@@ -42,6 +42,8 @@ python svg_curve_divV2.py --gui
 python svg_crossing_gap_optionsV3.py --gui
 ```
 
+For step-by-step workflows using the included example SVG files, see [Manual/README.md](Manual/README.md).
+
 ## Command-Line Examples
 
 Create a closed smooth curve from point data:
