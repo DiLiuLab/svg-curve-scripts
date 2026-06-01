@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 612 792">
-  <!-- Generator: Adobe Illustrator 30.4.0, SVG Export Plug-In . SVG Version: 2.1.4 Build 226)  -->
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="29.12 48.53 564 594">
+  
   <defs>
     <style>
       .st0 {
@@ -17,7 +17,7 @@
     </style>
   </defs>
   <g id="Layer_1">
-    <line class="st0" x1="311.12" y1="170.53" x2="311.12" y2="570.53"/>
+    <line class="st0" x1="311.12" y1="170.53" x2="311.12" y2="570.53" />
     <text class="st1" transform="translate(321.12 407.62) rotate(90)"><tspan x="0" y="0">100 pt</tspan></text>
     <text class="st1" transform="translate(321.12 302.41) rotate(90)"><tspan x="0" y="0">100 pt</tspan></text>
     <text class="st1" transform="translate(527.41 240.53) rotate(90)"><tspan x="0" y="0">50 pt</tspan></text>
@@ -26,30 +26,30 @@
     <text class="st1" transform="translate(321.12 360.52)"><tspan x="0" y="0">60 pt for x</tspan></text>
     <text class="st1" transform="translate(411.12 257.33)"><tspan x="0" y="0">200 pt</tspan></text>
     <text class="st1" transform="translate(441.12 460.53)"><tspan x="0" y="0">260 pt</tspan></text>
-    <line class="st0" x1="311.12" y1="370.53" x2="371.12" y2="370.53"/>
-    <line class="st0" x1="371.12" y1="370.53" x2="371.12" y2="420.53"/>
-    <line class="st0" x1="371.12" y1="520.53" x2="371.12" y2="620.53"/>
-    <line class="st0" x1="311.12" y1="470.53" x2="571.12" y2="470.53"/>
+    <line class="st0" x1="311.12" y1="370.53" x2="371.12" y2="370.53" />
+    <line class="st0" x1="371.12" y1="370.53" x2="371.12" y2="420.53" />
+    <line class="st0" x1="371.12" y1="520.53" x2="371.12" y2="620.53" />
+    <line class="st0" x1="311.12" y1="470.53" x2="571.12" y2="470.53" />
   </g>
   <g id="Layer_2">
-    <circle id="_x31_" class="st0" cx="311.12" cy="70.53" r="10"/>
-    <circle id="_x31_.5" class="st0" cx="511.12" cy="220.53" r="10"/>
-    <circle id="_x32_" class="st0" cx="311.12" cy="370.53" r="10"/>
-    <circle id="_x33_" class="st0" cx="251.12" cy="420.53" r="10"/>
-    <circle id="_x34_" class="st0" cx="311.12" cy="470.53" r="10"/>
-    <circle id="_x35_" class="st0" cx="371.12" cy="520.53" r="10"/>
-    <circle id="_x36_" class="st0" cx="311.12" cy="570.53" r="10"/>
-    <circle id="_x37_" class="st0" cx="251.12" cy="620.53" r="10"/>
-    <circle id="_x37_.5" class="st0" cx="51.12" cy="470.53" r="10"/>
-    <circle id="_x38_" class="st0" cx="311.12" cy="270.53" r="10"/>
-    <circle id="_x38_.5" class="st0" cx="571.12" cy="470.53" r="10"/>
-    <circle id="_x39_" class="st0" cx="371.12" cy="620.53" r="10"/>
-    <circle id="_x31_0" class="st0" cx="311.12" cy="570.53" r="20"/>
-    <circle id="_x31_1" class="st0" cx="251.12" cy="520.53" r="10"/>
-    <circle id="_x31_2" class="st0" cx="311.12" cy="470.53" r="20"/>
-    <circle id="_x31_3" class="st0" cx="371.12" cy="420.53" r="10"/>
-    <circle id="_x31_4" class="st0" cx="311.12" cy="370.53" r="20"/>
-    <circle id="_x31_4.5" class="st0" cx="111.12" cy="220.53" r="10"/>
-    <line class="st0" x1="311.12" y1="270.53" x2="511.12" y2="270.53"/>
+    <circle id="_x31_" class="st0" cx="311.12" cy="70.53" r="10" />
+    <circle id="_x31_.5" class="st0" cx="511.12" cy="220.53" r="10" />
+    <circle id="_x32_" class="st0" cx="311.12" cy="370.53" r="10" />
+    <circle id="_x33_" class="st0" cx="251.12" cy="420.53" r="10" />
+    <circle id="_x34_" class="st0" cx="311.12" cy="470.53" r="10" />
+    <circle id="_x35_" class="st0" cx="371.12" cy="520.53" r="10" />
+    <circle id="_x36_" class="st0" cx="311.12" cy="570.53" r="10" />
+    <circle id="_x37_" class="st0" cx="251.12" cy="620.53" r="10" />
+    <circle id="_x37_.5" class="st0" cx="51.12" cy="470.53" r="10" />
+    <circle id="_x38_" class="st0" cx="311.12" cy="270.53" r="10" />
+    <circle id="_x38_.5" class="st0" cx="571.12" cy="470.53" r="10" />
+    <circle id="_x39_" class="st0" cx="371.12" cy="620.53" r="10" />
+    <circle id="_x31_0" class="st0" cx="311.12" cy="570.53" r="20" />
+    <circle id="_x31_1" class="st0" cx="251.12" cy="520.53" r="10" />
+    <circle id="_x31_2" class="st0" cx="311.12" cy="470.53" r="20" />
+    <circle id="_x31_3" class="st0" cx="371.12" cy="420.53" r="10" />
+    <circle id="_x31_4" class="st0" cx="311.12" cy="370.53" r="20" />
+    <circle id="_x31_4.5" class="st0" cx="111.12" cy="220.53" r="10" />
+    <line class="st0" x1="311.12" y1="270.53" x2="511.12" y2="270.53" />
   </g>
 </svg>

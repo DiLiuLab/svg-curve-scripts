@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 612 792">
-  <!-- Generator: Adobe Illustrator 30.4.0, SVG Export Plug-In . SVG Version: 2.1.4 Build 226)  -->
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" version="1.1" viewBox="87.53 226.6 468.26 326.84">
+  
   <defs>
     <style>
       .st0 {
@@ -17,18 +17,18 @@
       }
     </style>
   </defs>
-  <rect class="st0" x="150.95" y="290.02" width="200" height="200" transform="translate(-202.28 291.68) rotate(-45)"/>
-  <rect class="st0" x="292.37" y="290.02" width="200" height="200" transform="translate(-160.86 391.68) rotate(-45)"/>
+  <rect class="st0" x="150.95" y="290.02" width="200" height="200" transform="translate(-202.28 291.68) rotate(-45)" />
+  <rect class="st0" x="292.37" y="290.02" width="200" height="200" transform="translate(-160.86 391.68) rotate(-45)" />
   <g id="ring2">
-    <circle class="st0" cx="250.95" cy="248.6" r="10"/>
-    <circle class="st0" cx="109.53" cy="390.02" r="10"/>
-    <circle class="st0" cx="250.95" cy="531.44" r="10"/>
-    <circle class="st0" cx="392.37" cy="390.02" r="10"/>
+    <circle class="st0" cx="250.95" cy="248.6" r="10" />
+    <circle class="st0" cx="109.53" cy="390.02" r="10" />
+    <circle class="st0" cx="250.95" cy="531.44" r="10" />
+    <circle class="st0" cx="392.37" cy="390.02" r="10" />
   </g>
   <g id="ring1">
-    <circle class="st1" cx="392.37" cy="248.6" r="10"/>
-    <circle class="st1" cx="250.95" cy="390.02" r="10"/>
-    <circle class="st1" cx="392.37" cy="531.44" r="10"/>
-    <circle class="st1" cx="533.79" cy="390.02" r="10"/>
+    <circle class="st1" cx="392.37" cy="248.6" r="10" />
+    <circle class="st1" cx="250.95" cy="390.02" r="10" />
+    <circle class="st1" cx="392.37" cy="531.44" r="10" />
+    <circle class="st1" cx="533.79" cy="390.02" r="10" />
   </g>
 </svg>
