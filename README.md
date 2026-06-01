@@ -149,4 +149,4 @@ gh repo create svg-curve-scripts --public --source=. --remote=origin --push
 
 ## License
 
-No license has been selected yet. Before publishing publicly, choose a license if you want other people to know how they may use, modify, and redistribute the scripts.
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
