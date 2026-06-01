@@ -6,6 +6,7 @@ This project currently keeps script version numbers in the filenames. For future
 
 ## Unreleased
 
+- Replaced `svg_curve_divV2.py` with `svg_curve_divV3.py`, adding optional rainbow fragment coloring.
 - Added GitHub-ready project documentation.
 - Added dependency list.
 - Added standard Python `.gitignore`.

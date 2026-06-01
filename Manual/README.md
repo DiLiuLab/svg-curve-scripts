@@ -41,6 +41,10 @@ Or one curve can be divided into design-length fragments. The image below uses `
 
 ![HL divided fragments shown with separate output](images/hl_05_divided_fragments.svg)
 
+V3 can also color each fragment with a different rainbow stroke color:
+
+![HL colored fragments](images/hl_06_colored_fragments.svg)
+
 `TK1B_circle.svg` is a longer single anchor sequence:
 
 ![TK1B circle anchor input](images/tk1b_01_circle_input.svg)
@@ -57,7 +61,7 @@ Install the Python dependency:
 python3 -m pip install -r requirements.txt
 ```
 
-This installs `svgpathtools`, which is needed by `svg_curve_divV2.py`. The point-to-curve and crossing-gap scripts use only Python's standard library.
+This installs `svgpathtools`, which is needed by `svg_curve_divV3.py`. The point-to-curve and crossing-gap scripts use only Python's standard library.
 
 A virtual environment is optional. It can help keep Python packages isolated, but users do not need to create one to run the examples in this manual.
 
@@ -189,7 +193,7 @@ Tips:
 
 ## Workflow 3: Divide a Curve into Fragments
 
-Use `svg_curve_divV2.py` when you need editable curve fragments based on design lengths.
+Use `svg_curve_divV3.py` when you need editable curve fragments based on design lengths. V3 also supports `--color-fragments`, which gives each divided fragment a different rainbow stroke color.
 
 Create a curve SVG first:
 
@@ -202,7 +206,7 @@ python svg_point2curveV3.py Example/HL_circle.svg \
 List the available paths:
 
 ```bash
-python svg_curve_divV2.py Example/HL_curve.svg --list-paths
+python svg_curve_divV3.py Example/HL_curve.svg --list-paths
 ```
 
 Expected path list for `HL_curve.svg`:
@@ -215,7 +219,7 @@ Expected path list for `HL_curve.svg`:
 Divide the first path into design-length fragments:
 
 ```bash
-python svg_curve_divV2.py Example/HL_curve.svg \
+python svg_curve_divV3.py Example/HL_curve.svg \
   --path-index 0 \
   --total 40 \
   --lengths 11 18 \
@@ -227,7 +231,7 @@ In this example, the final fragment length is calculated automatically as `40 - 
 Use separated output for easier inspection:
 
 ```bash
-python svg_curve_divV2.py Example/HL_curve.svg \
+python svg_curve_divV3.py Example/HL_curve.svg \
   --path-index 0 \
   --total 40 \
   --lengths 11 18 \
@@ -247,13 +251,47 @@ Visual result using `--separate`:
 
 ![HL divided fragments shown with separate output](images/hl_05_divided_fragments.svg)
 
+Color the divided fragments:
+
+```bash
+python svg_curve_divV3.py Example/HL_curve.svg \
+  --path-index 0 \
+  --total 40 \
+  --lengths 11 18 \
+  --color-fragments \
+  --output Example/HL_ring2_div_color.svg
+```
+
+Combine color with separated output:
+
+```bash
+python svg_curve_divV3.py Example/HL_curve.svg \
+  --path-index 0 \
+  --total 40 \
+  --lengths 11 18 \
+  --separate \
+  --color-fragments \
+  --output Example/HL_ring2_div_separate_color.svg
+```
+
+Behavior of `--color-fragments`:
+
+- Each divided fragment receives a rainbow stroke color, evenly distributed across the hue spectrum.
+- The option changes the fragment stroke color only; it keeps other path attributes such as fill, stroke width, line cap, and line join.
+- It works with both default aligned output and `--separate` output.
+- Coloring is useful for checking the order and boundaries of generated fragments before editing them in Illustrator.
+
+Visual result using `--separate --color-fragments`:
+
+![HL colored fragments](images/hl_06_colored_fragments.svg)
+
 ## GUI Mode
 
 Each script can open a GUI:
 
 ```bash
 python svg_point2curveV3.py --gui
-python svg_curve_divV2.py --gui
+python svg_curve_divV3.py --gui
 python svg_crossing_gap_optionsV3.py --gui
 ```
 
@@ -267,5 +305,6 @@ Keep original example inputs in `Example/` and write generated outputs with clea
 - `_points.txt` for exported point coordinates.
 - `_crossing_gap.svg` for editable crossing-gap output.
 - `_div.svg` for divided curve output.
+- `_div_color.svg` for divided curve output with `--color-fragments`.
 
 For long-term versioning, prefer Git commits and release tags instead of adding new version numbers to filenames.

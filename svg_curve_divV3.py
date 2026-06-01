@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-# svg_curve_divV2.py
+# svg_curve_divV3.py
 # Split one SVG <path> curve into editable SVG path fragments using design-length proportions.
 # Inputs: an SVG file, a design total length, fragment lengths and/or number of fragments.
 # Outputs: a new SVG file containing divided fragment paths, either aligned to the original curve or separated.
-# Example: python svg_curve_divV2.py input.svg --total 40 --lengths 11 18 --output input_div.svg
+# Optional: color fragments with evenly distributed rainbow stroke colors.
+# Example: python svg_curve_divV3.py input.svg --total 40 --lengths 11 18 --color-fragments --output input_div.svg
 
 import argparse
+import colorsys
 import copy
 import os
 import re
@@ -179,6 +181,47 @@ def transformed_attr(existing: Optional[str], extra: str) -> str:
     return extra
 
 
+def rainbow_hex_colors(count: int) -> List[str]:
+    """Return evenly distributed, vivid rainbow colors as #RRGGBB strings."""
+    if count < 1:
+        return []
+    colors = []
+    for i in range(count):
+        hue = float(i) / float(count)
+        r, g, b = colorsys.hsv_to_rgb(hue, 0.85, 0.95)
+        colors.append("#%02X%02X%02X" % (int(round(r * 255)), int(round(g * 255)), int(round(b * 255))))
+    return colors
+
+
+def parse_style_attribute(style: str) -> Dict[str, str]:
+    """Parse an SVG style attribute into a property dictionary."""
+    result: Dict[str, str] = {}
+    for part in style.split(";"):
+        if ":" not in part:
+            continue
+        key, value = part.split(":", 1)
+        key = key.strip()
+        value = value.strip()
+        if key:
+            result[key] = value
+    return result
+
+
+def serialize_style_attribute(style_dict: Dict[str, str]) -> str:
+    return ";".join("%s:%s" % (key, value) for key, value in style_dict.items() if key)
+
+
+def set_fragment_stroke_color(attrs: Dict[str, str], color: str) -> None:
+    """Set the visible stroke color of a copied SVG path while preserving other style settings."""
+    style_text = attrs.get("style", "")
+    if style_text.strip():
+        style_dict = parse_style_attribute(style_text)
+        style_dict["stroke"] = color
+        attrs["style"] = serialize_style_attribute(style_dict)
+    else:
+        attrs["stroke"] = color
+
+
 def crop_path_by_design_lengths(path_obj, design_total: float, fragment_lengths: Sequence[float]):
     """Crop an svgpathtools Path into fragments based on design-length proportions."""
     actual_length = path_obj.length()
@@ -273,6 +316,7 @@ def divide_svg_curve(
     separate_direction: str = "y",
     separate_spacing: float = 25.0,
     precision: int = 6,
+    color_fragments: bool = False,
 ) -> Tuple[str, List[float], float]:
     """Split one SVG path into multiple path elements and write a new SVG."""
     parse_path = require_svgpathtools()
@@ -297,6 +341,7 @@ def divide_svg_curve(
     original_d = target.get("d", "")
     path_obj = parse_path(original_d)
     actual_length, path_fragments = crop_path_by_design_lengths(path_obj, design_total, completed_lengths)
+    fragment_colors = rainbow_hex_colors(len(path_fragments)) if color_fragments else []
 
     base_id = target.get("id") or ("path_%d" % path_index)
     group_tag = same_namespace_tag(root.tag, "g")
@@ -324,6 +369,9 @@ def divide_svg_curve(
                 dx, dy = 0.0, (idx - 1) * separate_spacing
             extra = "translate(%s %s)" % (fmt_num(dx), fmt_num(dy))
             new_attrs["transform"] = transformed_attr(original_transform, extra)
+
+        if color_fragments:
+            set_fragment_stroke_color(new_attrs, fragment_colors[idx - 1])
 
         group.append(ET.Element(path_tag, new_attrs))
 
@@ -354,7 +402,7 @@ def launch_gui() -> None:
     from tkinter import filedialog, messagebox, ttk
 
     root = tk.Tk()
-    root.title("SVG curve divider V2")
+    root.title("SVG curve divider V3")
     root.geometry("980x700")
 
     input_var = tk.StringVar()
@@ -367,6 +415,7 @@ def launch_gui() -> None:
     fragment_info_var = tk.StringVar(value="Fragments: enter total/lengths/fragments to preview the division.")
     align_var = tk.BooleanVar(value=True)
     keep_original_var = tk.BooleanVar(value=False)
+    color_fragments_var = tk.BooleanVar(value=False)
     direction_var = tk.StringVar(value="y")
     spacing_var = tk.StringVar(value="25")
     precision_var = tk.StringVar(value="6")
@@ -417,6 +466,12 @@ def launch_gui() -> None:
         "Keep original": (
             "When checked, the original path is kept as a reference and the divided fragments are inserted after it.\n\n"
             "When unchecked, the original selected path is replaced by a group containing the divided fragments."
+        ),
+        "Color fragments": (
+            "When checked, each divided fragment receives a different stroke color.\n\n"
+            "The default colors are vivid rainbow colors evenly distributed through the hue spectrum. "
+            "This is useful for checking whether the division worked or for preparing Illustrator artwork.\n\n"
+            "The script changes the fragment stroke color but preserves other path attributes as much as possible."
         ),
         "Separate direction": (
             "Used only when 'Align fragments to original curve' is unchecked.\n\n"
@@ -548,6 +603,9 @@ def launch_gui() -> None:
             "  fragment design lengths = %s" % ", ".join(fmt_num(x) for x in completed_lengths),
             "  proportions = %s" % ", ".join(fmt_num(x, 3) + "%" for x in percentages),
         ]
+        if color_fragments_var.get():
+            colors = rainbow_hex_colors(len(completed_lengths))
+            text_lines.append("  rainbow stroke colors = %s" % ", ".join(colors))
 
         actual_length = current_selected_actual_length()
         if actual_length is not None:
@@ -615,6 +673,7 @@ def launch_gui() -> None:
                 separate_direction=direction_var.get(),
                 separate_spacing=spacing,
                 precision=precision,
+                color_fragments=color_fragments_var.get(),
             )
             status = (
                 "Created: %s\nFragments: %s\nActual SVG path length: %.6f"
@@ -629,7 +688,7 @@ def launch_gui() -> None:
     # Automatic live updates for the two requested GUI information fields.
     for var in (input_var, path_index_var):
         var.trace_add("write", schedule_path_update)
-    for var in (total_var, lengths_var, fragments_var, path_index_var, input_var):
+    for var in (total_var, lengths_var, fragments_var, path_index_var, input_var, color_fragments_var):
         var.trace_add("write", schedule_fragment_update)
 
     pad = {"padx": 8, "pady": 5}
@@ -685,8 +744,13 @@ def launch_gui() -> None:
     ttk.Checkbutton(keep_frame, text="Keep original path as reference", variable=keep_original_var).pack(side="left")
     help_button(keep_frame, "Keep original").pack(side="left", padx=6)
 
+    color_frame = ttk.Frame(main)
+    color_frame.grid(row=10, column=1, sticky="w", **pad)
+    ttk.Checkbutton(color_frame, text="Color fragments with rainbow stroke colors", variable=color_fragments_var).pack(side="left")
+    help_button(color_frame, "Color fragments").pack(side="left", padx=6)
+
     separate_frame = ttk.Frame(main)
-    separate_frame.grid(row=10, column=1, sticky="w", **pad)
+    separate_frame.grid(row=11, column=1, sticky="w", **pad)
     ttk.Label(separate_frame, text="If not aligned: direction").pack(side="left")
     ttk.Combobox(separate_frame, textvariable=direction_var, values=["x", "y"], width=5, state="readonly").pack(side="left", padx=6)
     help_button(separate_frame, "Separate direction").pack(side="left", padx=2)
@@ -694,16 +758,16 @@ def launch_gui() -> None:
     ttk.Entry(separate_frame, textvariable=spacing_var, width=8).pack(side="left", padx=6)
     help_button(separate_frame, "Separate spacing").pack(side="left", padx=2)
 
-    ttk.Label(main, text="Numeric precision").grid(row=11, column=0, sticky="w", **pad)
-    ttk.Entry(main, textvariable=precision_var, width=20).grid(row=11, column=1, sticky="w", **pad)
-    help_button(main, "Numeric precision").grid(row=11, column=3, sticky="w", **pad)
+    ttk.Label(main, text="Numeric precision").grid(row=12, column=0, sticky="w", **pad)
+    ttk.Entry(main, textvariable=precision_var, width=20).grid(row=12, column=1, sticky="w", **pad)
+    help_button(main, "Numeric precision").grid(row=12, column=3, sticky="w", **pad)
 
     create_frame = ttk.Frame(main)
-    create_frame.grid(row=12, column=1, sticky="w", **pad)
+    create_frame.grid(row=13, column=1, sticky="w", **pad)
     ttk.Button(create_frame, text="Create output SVG", command=create_output).pack(side="left")
     help_button(create_frame, "Create output SVG").pack(side="left", padx=6)
 
-    ttk.Label(main, textvariable=status_var, wraplength=880).grid(row=13, column=0, columnspan=4, sticky="we", **pad)
+    ttk.Label(main, textvariable=status_var, wraplength=880).grid(row=14, column=0, columnspan=4, sticky="we", **pad)
 
     main.columnconfigure(1, weight=1)
     main.columnconfigure(2, weight=0)
@@ -719,7 +783,8 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
             "Split one SVG <path> curve into editable fragments. By default, the fragments "
-            "are aligned to the original curve. With no arguments, or with --gui, a Tkinter GUI opens."
+            "are aligned to the original curve. With no arguments, or with --gui, a Tkinter GUI opens. "
+            "Use --color-fragments to give each fragment a different rainbow stroke color."
         )
     )
     parser.add_argument("input_svg", nargs="?", help="Input SVG file.")
@@ -765,6 +830,11 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Keep the original path and insert the divided fragments after it.",
     )
     parser.add_argument(
+        "--color-fragments",
+        action="store_true",
+        help="Color divided fragments with evenly distributed rainbow stroke colors.",
+    )
+    parser.add_argument(
         "--precision",
         type=int,
         default=6,
@@ -807,6 +877,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             separate_direction=args.separate_direction,
             separate_spacing=args.separate_spacing,
             precision=args.precision,
+            color_fragments=args.color_fragments,
         )
         print("Wrote: %s" % output_svg)
         print("Fragment design lengths: %s" % ", ".join(fmt_num(x) for x in completed_lengths))
@@ -815,6 +886,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             print("Placement: fragments aligned to the original curve.")
         else:
             print("Placement: fragments separated for inspection.")
+        if args.color_fragments:
+            print("Coloring: rainbow stroke colors applied to fragments.")
         return 0
     except Exception as exc:
         print("Error: %s" % exc, file=sys.stderr)

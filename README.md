@@ -7,14 +7,14 @@ Small Python utilities for preparing and editing SVG curve geometry. The scripts
 | Script | Purpose | Main inputs | Main outputs |
 | --- | --- | --- | --- |
 | `svg_point2curveV3.py` | Converts ordered 2D points, or SVG circle/ellipse centers, into smooth cubic Bezier SVG paths. | `.txt`, `.csv`, `.svg` | Smooth curve `.svg`, optional exported points `.txt` |
-| `svg_curve_divV2.py` | Splits one SVG path into editable fragments based on design-length proportions. | `.svg` path | Divided fragment `.svg` |
+| `svg_curve_divV3.py` | Splits one SVG path into editable fragments based on design-length proportions, with optional rainbow fragment coloring. | `.svg` path | Divided fragment `.svg` |
 | `svg_crossing_gap_optionsV3.py` | Detects curve crossings and creates editable gap/overpass options for knot or link diagrams. | `.svg` paths | Crossing-gap option `.svg` |
 
 ## Requirements
 
 - Python 3.9 or newer is recommended.
 - Tkinter is needed only for GUI mode. It is included with many Python installations, but not all.
-- `svgpathtools` is required by `svg_curve_divV2.py`.
+- `svgpathtools` is required by `svg_curve_divV3.py`.
 
 Install the Python dependency:
 
@@ -22,7 +22,7 @@ Install the Python dependency:
 python3 -m pip install -r requirements.txt
 ```
 
-This installs `svgpathtools`, which is needed by `svg_curve_divV2.py`. The other scripts use only Python's standard library. If you prefer keeping project dependencies isolated, you may use a virtual environment, but it is not required for normal use.
+This installs `svgpathtools`, which is needed by `svg_curve_divV3.py`. The other scripts use only Python's standard library. If you prefer keeping project dependencies isolated, you may use a virtual environment, but it is not required for normal use.
 
 ## Quick Start
 
@@ -30,7 +30,7 @@ Show each script's available options:
 
 ```bash
 python svg_point2curveV3.py --help
-python svg_curve_divV2.py --help
+python svg_curve_divV3.py --help
 python svg_crossing_gap_optionsV3.py --help
 ```
 
@@ -38,7 +38,7 @@ Run a GUI:
 
 ```bash
 python svg_point2curveV3.py --gui
-python svg_curve_divV2.py --gui
+python svg_curve_divV3.py --gui
 python svg_crossing_gap_optionsV3.py --gui
 ```
 
@@ -67,13 +67,19 @@ python svg_point2curveV3.py input.svg --output curves.svg --keep-svg-frame --exp
 List paths in an SVG before choosing one to divide:
 
 ```bash
-python svg_curve_divV2.py input.svg --list-paths
+python svg_curve_divV3.py input.svg --list-paths
 ```
 
 Divide a selected path using a design total of 40 and fragment lengths 11, 18, and the automatically calculated remainder:
 
 ```bash
-python svg_curve_divV2.py input.svg --total 40 --lengths 11 18 --output input_div.svg
+python svg_curve_divV3.py input.svg --total 40 --lengths 11 18 --output input_div.svg
+```
+
+Color each divided fragment with a different rainbow stroke color:
+
+```bash
+python svg_curve_divV3.py input.svg --total 40 --lengths 11 18 --color-fragments --output input_div_color.svg
 ```
 
 Create editable crossing-gap options:
@@ -121,7 +127,7 @@ For SVG input, circles inside a group such as `<g id="curve_A">...</g>` become o
 
 ## Versioning and File Names
 
-The current files use suffixes such as `V2` and `V3`. That is understandable for personal experiments, but it is usually not the best practice in a GitHub repository because Git already records every version.
+The current files use suffixes such as `V3`. That is understandable for personal experiments, but it is usually not the best practice in a GitHub repository because Git already records every version.
 
 Recommended future practice:
 
