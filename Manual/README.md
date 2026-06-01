@@ -37,9 +37,9 @@ The smooth curves can then be used to create editable crossing-gap options:
 
 ![HL crossing-gap options](images/hl_03_crossing_options.svg)
 
-Or one curve can be divided into design-length fragments:
+Or one curve can be divided into design-length fragments. The image below uses `--separate`, so the fragments are offset from each other for easier inspection:
 
-![HL divided fragments](images/hl_05_divided_fragments.svg)
+![HL divided fragments shown with separate output](images/hl_05_divided_fragments.svg)
 
 `TK1B_circle.svg` is a longer single anchor sequence:
 
@@ -233,9 +233,17 @@ python svg_curve_divV2.py Example/HL_curve.svg \
   --output Example/HL_ring2_div_separate.svg
 ```
 
-Visual result:
+Behavior of `--separate`:
 
-![HL divided fragments](images/hl_05_divided_fragments.svg)
+- Default behavior without `--separate`: fragments stay aligned on the original curve, so the output can replace or overlay the original path.
+- With `--separate`: fragments are moved apart in the chosen direction so each piece is easier to inspect and select.
+- The geometry of each fragment is not changed by `--separate`; only its placement in the output SVG changes.
+- Use `--separate-direction x` or `--separate-direction y` to choose the offset direction. The default is `y`.
+- Use `--separate-spacing` to adjust the distance between separated fragments.
+
+Visual result using `--separate`:
+
+![HL divided fragments shown with separate output](images/hl_05_divided_fragments.svg)
 
 ## GUI Mode
 
