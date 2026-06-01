@@ -17,6 +17,38 @@ cd /path/to/svg-curve-scripts
 
 Both examples were exported from Adobe Illustrator and contain circles that act as anchor points. `svg_point2curveV3.py` reads the circle centers in SVG document order.
 
+## Visual Overview
+
+The main workflow is:
+
+```text
+circle anchor SVG -> smooth curve SVG -> crossing gaps or divided fragments
+```
+
+`HL_circle.svg` starts with two named groups of circle anchors:
+
+![HL circle anchor input](images/hl_01_circle_input.svg)
+
+After conversion, those anchors become two smooth closed curves:
+
+![HL smooth curve output](images/hl_02_smooth_curves.svg)
+
+The smooth curves can then be used to create editable crossing-gap options:
+
+![HL crossing-gap options](images/hl_03_crossing_options.svg)
+
+Or one curve can be divided into design-length fragments:
+
+![HL divided fragments](images/hl_05_divided_fragments.svg)
+
+`TK1B_circle.svg` is a longer single anchor sequence:
+
+![TK1B circle anchor input](images/tk1b_01_circle_input.svg)
+
+After conversion, it becomes one smooth closed curve:
+
+![TK1B smooth curve output](images/tk1b_02_smooth_curve.svg)
+
 ## Setup
 
 Create and activate a virtual environment:
@@ -47,6 +79,10 @@ Expected result:
 - `Example/HL_curve.svg` contains two curve paths named `ring2` and `ring1`.
 - `Example/HL_points.txt` records the parsed anchor coordinates.
 
+Visual result:
+
+![HL smooth curve output](images/hl_02_smooth_curves.svg)
+
 The parsed `HL_circle.svg` point groups are:
 
 ```text
@@ -76,6 +112,10 @@ Expected result:
 
 - `Example/TK1B_curve.svg` contains one curve path named `Layer_2`.
 - `Example/TK1B_points.txt` records the anchor coordinates.
+
+Visual result:
+
+![TK1B smooth curve output](images/tk1b_02_smooth_curve.svg)
 
 Useful options:
 
@@ -114,6 +154,10 @@ Expected result for `HL_curve.svg`:
 - Detected crossings: 2
 - Output file: `Example/HL_crossing_gap.svg`
 
+Visual result:
+
+![HL crossing-gap options](images/hl_03_crossing_options.svg)
+
 The output SVG contains editable groups:
 
 - `original_graph_reference`: original continuous curves, hidden by default unless changed.
@@ -130,6 +174,10 @@ python svg_crossing_gap_optionsV3.py Example/HL_curve.svg \
   --gap-radius-px 12 \
   --add-direction-guides
 ```
+
+Visual result:
+
+![HL direction guides](images/hl_04_direction_guides.svg)
 
 Tips:
 
@@ -184,6 +232,10 @@ python svg_curve_divV2.py Example/HL_curve.svg \
   --separate \
   --output Example/HL_ring2_div_separate.svg
 ```
+
+Visual result:
+
+![HL divided fragments](images/hl_05_divided_fragments.svg)
 
 ## GUI Mode
 
