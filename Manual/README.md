@@ -1,6 +1,6 @@
 # SVG Curve Scripts Manual
 
-This manual shows practical workflows for the scripts in this repository using the files in the `Example` folder.
+This manual shows practical workflows for the scripts in this repository using the files in the `Examples` folder.
 
 Run commands from the repository root:
 
@@ -12,8 +12,8 @@ cd /path/to/svg-curve-scripts
 
 | File | What it demonstrates |
 | --- | --- |
-| `Example/HL_circle.svg` | Two named circle groups, `ring2` and `ring1`, suitable for converting into two closed curves and then generating crossing-gap options. |
-| `Example/TK1B_circle.svg` | One circle-anchor group, `Layer_2`, suitable for converting a longer ordered anchor sequence into one smooth closed curve. |
+| `Examples/HL_circle.svg` | Two named circle groups, `ring2` and `ring1`, suitable for converting into two closed curves and then generating crossing-gap options. |
+| `Examples/TK1B_circle.svg` | One circle-anchor group, `Layer_2`, suitable for converting a longer ordered anchor sequence into one smooth closed curve. |
 
 Both examples were exported from Adobe Illustrator and contain circles that act as anchor points. `svg_point2curveV3.py` reads the circle centers in SVG document order.
 
@@ -78,16 +78,16 @@ Use `svg_point2curveV3.py` when an SVG contains circles marking the intended cur
 Convert `HL_circle.svg` into two smooth closed curves:
 
 ```bash
-python svg_point2curveV3.py Example/HL_circle.svg \
-  --output Example/HL_curve.svg \
+python svg_point2curveV3.py Examples/HL_circle.svg \
+  --output Examples/HL_curve.svg \
   --keep-svg-frame \
-  --export-points-txt Example/HL_points.txt
+  --export-points-txt Examples/HL_points.txt
 ```
 
 Expected result:
 
-- `Example/HL_curve.svg` contains two curve paths named `ring2` and `ring1`.
-- `Example/HL_points.txt` records the parsed anchor coordinates.
+- `Examples/HL_curve.svg` contains two curve paths named `ring2` and `ring1`.
+- `Examples/HL_points.txt` records the parsed anchor coordinates.
 
 The parsed `HL_circle.svg` point groups are:
 
@@ -108,23 +108,23 @@ The parsed `HL_circle.svg` point groups are:
 Convert `TK1B_circle.svg` into one smooth closed curve:
 
 ```bash
-python svg_point2curveV3.py Example/TK1B_circle.svg \
-  --output Example/TK1B_curve.svg \
+python svg_point2curveV3.py Examples/TK1B_circle.svg \
+  --output Examples/TK1B_curve.svg \
   --keep-svg-frame \
-  --export-points-txt Example/TK1B_points.txt
+  --export-points-txt Examples/TK1B_points.txt
 ```
 
 Expected result:
 
-- `Example/TK1B_curve.svg` contains one curve path named `Layer_2`.
-- `Example/TK1B_points.txt` records the anchor coordinates.
+- `Examples/TK1B_curve.svg` contains one curve path named `Layer_2`.
+- `Examples/TK1B_points.txt` records the anchor coordinates.
 
 Useful options:
 
 ```bash
-python svg_point2curveV3.py Example/HL_circle.svg --open --output Example/HL_open_curve.svg
-python svg_point2curveV3.py Example/HL_circle.svg --show-points --show-handles --output Example/HL_debug_curve.svg
-python svg_point2curveV3.py Example/HL_circle.svg --method catmull-rom --output Example/HL_catmull_rom.svg
+python svg_point2curveV3.py Examples/HL_circle.svg --open --output Examples/HL_open_curve.svg
+python svg_point2curveV3.py Examples/HL_circle.svg --show-points --show-handles --output Examples/HL_debug_curve.svg
+python svg_point2curveV3.py Examples/HL_circle.svg --method catmull-rom --output Examples/HL_catmull_rom.svg
 ```
 
 Use `--open` when the curve should not return to its first point. The default is a closed curve.
@@ -136,16 +136,16 @@ Use `svg_crossing_gap_optionsV3.py` after converting circle anchors into curve p
 First create the curve SVG:
 
 ```bash
-python svg_point2curveV3.py Example/HL_circle.svg \
-  --output Example/HL_curve.svg \
+python svg_point2curveV3.py Examples/HL_circle.svg \
+  --output Examples/HL_curve.svg \
   --keep-svg-frame
 ```
 
 Then create crossing-gap options:
 
 ```bash
-python svg_crossing_gap_optionsV3.py Example/HL_curve.svg \
-  --output Example/HL_crossing_gap.svg \
+python svg_crossing_gap_optionsV3.py Examples/HL_curve.svg \
+  --output Examples/HL_crossing_gap.svg \
   --gap-radius-px 12 \
   --default-choice both
 ```
@@ -154,7 +154,7 @@ Expected result for `HL_curve.svg`:
 
 - Input curves: 2
 - Detected crossings: 2
-- Output file: `Example/HL_crossing_gap.svg`
+- Output file: `Examples/HL_crossing_gap.svg`
 
 The output SVG contains editable groups:
 
@@ -167,8 +167,8 @@ The output SVG contains editable groups:
 Add direction guides for Illustrator arrowheads:
 
 ```bash
-python svg_crossing_gap_optionsV3.py Example/HL_curve.svg \
-  --output Example/HL_crossing_gap_guides.svg \
+python svg_crossing_gap_optionsV3.py Examples/HL_curve.svg \
+  --output Examples/HL_crossing_gap_guides.svg \
   --gap-radius-px 12 \
   --add-direction-guides
 ```
@@ -186,15 +186,15 @@ Use `svg_curve_divV3.py` when you need editable curve fragments based on design 
 Create a curve SVG first:
 
 ```bash
-python svg_point2curveV3.py Example/HL_circle.svg \
-  --output Example/HL_curve.svg \
+python svg_point2curveV3.py Examples/HL_circle.svg \
+  --output Examples/HL_curve.svg \
   --keep-svg-frame
 ```
 
 List the available paths:
 
 ```bash
-python svg_curve_divV3.py Example/HL_curve.svg --list-paths
+python svg_curve_divV3.py Examples/HL_curve.svg --list-paths
 ```
 
 Expected path list for `HL_curve.svg`:
@@ -207,11 +207,11 @@ Expected path list for `HL_curve.svg`:
 Divide the first path into design-length fragments:
 
 ```bash
-python svg_curve_divV3.py Example/HL_curve.svg \
+python svg_curve_divV3.py Examples/HL_curve.svg \
   --path-index 0 \
   --total 40 \
   --lengths 11 18 \
-  --output Example/HL_ring2_div.svg
+  --output Examples/HL_ring2_div.svg
 ```
 
 In this example, the final fragment length is calculated automatically as `40 - 11 - 18 = 11`.
@@ -219,12 +219,12 @@ In this example, the final fragment length is calculated automatically as `40 - 
 Use separated output for easier inspection:
 
 ```bash
-python svg_curve_divV3.py Example/HL_curve.svg \
+python svg_curve_divV3.py Examples/HL_curve.svg \
   --path-index 0 \
   --total 40 \
   --lengths 11 18 \
   --separate \
-  --output Example/HL_ring2_div_separate.svg
+  --output Examples/HL_ring2_div_separate.svg
 ```
 
 Behavior of `--separate`:
@@ -238,24 +238,24 @@ Behavior of `--separate`:
 Color the divided fragments:
 
 ```bash
-python svg_curve_divV3.py Example/HL_curve.svg \
+python svg_curve_divV3.py Examples/HL_curve.svg \
   --path-index 0 \
   --total 40 \
   --lengths 11 18 \
   --color-fragments \
-  --output Example/HL_ring2_div_color.svg
+  --output Examples/HL_ring2_div_color.svg
 ```
 
 Combine color with separated output:
 
 ```bash
-python svg_curve_divV3.py Example/HL_curve.svg \
+python svg_curve_divV3.py Examples/HL_curve.svg \
   --path-index 0 \
   --total 40 \
   --lengths 11 18 \
   --separate \
   --color-fragments \
-  --output Example/HL_ring2_div_separate_color.svg
+  --output Examples/HL_ring2_div_separate_color.svg
 ```
 
 Behavior of `--color-fragments`:
@@ -279,7 +279,7 @@ You can also run a script with no arguments to open its GUI.
 
 ## Recommended File Practice
 
-Keep original example inputs in `Example/` and write generated outputs with clear suffixes:
+Keep original example inputs in `Examples/` and write generated outputs with clear suffixes:
 
 - `_curve.svg` for point-to-curve output.
 - `_points.txt` for exported point coordinates.
